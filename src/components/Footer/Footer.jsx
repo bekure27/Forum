@@ -6,7 +6,7 @@ import {
 function Footer() {
   return (
     <footer className="bg-footer text-white p-10">
-      <div className="container mx-auto flex flex-col md:flex-row justify-between">
+      <div className="container mx-auto flex flex-col md:flex-row justify-around">
         <div className="text-center mb-4 md:mb-0 md:mr-8">
           <img
             src="/10005.png"

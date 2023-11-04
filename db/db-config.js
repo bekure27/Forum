@@ -1,14 +1,16 @@
+require("dotenv").config();
+
 const mysq12 = require("mysql2");
 
 const dbcon = mysq12.createPool({
-  user: "forum_admin",
-  database: "forum_db",
-  host: "localhost",
-  password: "12345678",
-  connectionLimit: 10,
+  user: process.env.DB_USER,
+  database: process.env.DB_DATABASE,
+  host: process.env.DB_HOST,
+  password: process.env.DB_PASSWORD,
+  connectionLimit: process.env.DB_CONNECTION_LIMIT,
 });
 
-// using callback 
+// using callback
 
 // dbcon.execute("select 'test' ", (err, result) => {
 //   if (err) {
@@ -18,5 +20,4 @@ const dbcon = mysq12.createPool({
 //   }
 // });
 
-
-module.exports = dbcon.promise()
+module.exports = dbcon.promise();

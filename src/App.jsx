@@ -92,10 +92,28 @@ function App() {
           />
           <Route
             path="/questions/:id"
-            element={<QuestionDetail answers={dummyAnswers} />}
+            element={
+              <PrivateRoute>
+                <QuestionDetail />
+              </PrivateRoute>
+            }
           />
-          <Route path="/ask" element={<AskQuestion />} />
-          <Route path="/profile" element={<EditProfile/>} />
+          <Route
+            path="/ask"
+            element={
+              <PrivateRoute>
+                <AskQuestion />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/profile"
+            element={
+              <PrivateRoute>
+                <EditProfile />
+              </PrivateRoute>
+            }
+          />
           <Route path="*" element={<NotFound />} />
         </Routes>
         <Footer />

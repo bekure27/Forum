@@ -83,7 +83,7 @@ async function getUsernamesForQuestions(req, res) {
       return res.status(404).json({ msg: "No questions found" });
     }
 
-    questions.sort((a, b) => (a.question_id > b.question_id ? -1 : 1)); // Sort questions based on the pseudo-creation time
+    questions.sort((a, b) => (a.question_id > b.question_id ? -1 : 1));
 
     const userIds = questions.map((question) => question.user_id);
     const [users] = await dbcon.query(
@@ -103,9 +103,10 @@ async function getUsernamesForQuestions(req, res) {
       };
     });
 
-    const latestThreeQuestions = questionsWithUsernames.slice(0, 3); // Display only the latest three questions
+    // const latestThreeQuestions = questionsWithUsernames.slice(0, 3); // Display only the latest three questions
+    // const restOfTheQuestions = questionsWithUsernames.slice(3); // Store the rest of the questions
 
-    return res.status(200).json(latestThreeQuestions);
+    return res.status(200).json(questionsWithUsernames);
   } catch (error) {
     console.log(error.message);
     return res

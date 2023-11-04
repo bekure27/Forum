@@ -1,4 +1,9 @@
 import { useState } from "react";
+import axios from "../../utils/axiosInstance";
+import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { login } from "../../features/auth/authSlice";
+
 
 const LoginRegister = () => {
   const [email, setEmail] = useState("");
@@ -7,26 +12,56 @@ const LoginRegister = () => {
   const [lastName, setLastName] = useState("");
   const [username, setUsername] = useState("");
   const [isRegistering, setIsRegistering] = useState(false);
+  const [error, setError] = useState("")
+  const navigate =useNavigate();
+  const dispatch = useDispatch();
 
-  const handleFormSubmit = (e) => {
+
+  
+  
+  const handleFormSubmit = async (e) => {
     e.preventDefault();
     if (isRegistering) {
       // Registration logic
-      console.log(
-        "Registering with email:",
-        email,
-        "first name:",
-        firstName,
-        "last name:",
-        lastName,
-        "username:",
-        username,
-        "and password:",
-        password
-      );
+     const userData = {
+       username: username,
+       firstname: firstName,
+       lastname: lastName,
+       email: email,
+       password: password,
+     };
+
+     try {
+       const response = await axios.post("users/register", userData);
+       setError(""); 
+       
+       dispatch(login({ username: response.data.username }));
+       navigate("/questions");
+     } catch (error) {
+      console.error("Error:", error.response.data.msg);
+      // Display the error to the user
+      setError(error.response.data.msg);
+    }
+    
     } else {
       // Login logic
-      console.log("Logging in with email:", email, "and password:", password);
+      const userData = {
+        email: email,
+        password: password,
+      };
+
+       try {
+         const response = await axios.post("users/login", userData);
+        //  console.log("Response data:", response.data);
+         const { username, userid } = response.data;
+          dispatch(login({ username, userId: userid }));
+         setError("")
+         navigate("/questions");
+       } catch (error) {
+         console.error("Error:", error.response.data.msg);
+         setError(error.response.data.msg);
+       }
+    
     }
   };
 
@@ -35,6 +70,7 @@ const LoginRegister = () => {
       <h1 className="text-2xl  text-center font-medium  mb-4">
         {isRegistering ? "Join the network" : "Login to your account"}
       </h1>
+      {error ? <h3 className="text-center text-xl text-red-600 font-semibold">{error}</h3> : null}
       <h2 className="text-[16px] mb-4">
         {isRegistering ? "Already have an account?" : "Don’t have an account?"}
         <button

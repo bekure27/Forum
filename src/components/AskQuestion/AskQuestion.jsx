@@ -1,14 +1,33 @@
 import { useState } from "react";
+import axios from "../../utils/axiosInstance";
+import { useSelector } from "react-redux";
 
-const AskQuestion = ({ handlePostQuestion }) => {
+const AskQuestion = () => {
+  const {  userId } = useSelector((state) => state.auth);
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
 
+  // console.log(userId)
+
+
+    const handlePostQuestion = async (newQuestion) => {
+      try {
+        const response = await axios.post(
+          "question/create",
+          newQuestion
+        );
+        console.log("Question created successfully:", response.data);
+        
+      } catch (error) {
+        console.error("Error creating question:", error);
+      }
+    };
   const handleSubmit = (e) => {
     e.preventDefault();
     const newQuestion = {
       title: title,
       description: description,
+      userId : userId
     };
     handlePostQuestion(newQuestion);
     // Reset the form after submission

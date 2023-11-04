@@ -29,3 +29,6 @@ CREATE TABLE IF NOT EXISTS answer (
     FOREIGN KEY (question_id) REFERENCES questions(question_id),
     FOREIGN KEY (user_id) REFERENCES users(user_id)
 );
+
+ALTER TABLE users
+ADD COLUMN profile_picture_path VARCHAR(255);

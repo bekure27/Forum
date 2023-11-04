@@ -39,42 +39,6 @@ async function getQuestion(req, res) {
 }
 
 
-
-// async function getUsernamesForQuestions(req, res) {
-//   try {
-//     const [questions] = await dbcon.query("SELECT * FROM questions");
-
-//     if (questions.length === 0) {
-//       return res.status(404).json({ msg: "No questions found" });
-//     }
-
-//     const userIds = questions.map((question) => question.user_id);
-//     const [users] = await dbcon.query(
-//       "SELECT user_id, user_name FROM users WHERE user_id IN (?)",
-//       [userIds]
-//     );
-
-//     const userMap = {};
-//     users.forEach((user) => {
-//       userMap[user.user_id] = user.user_name;
-//     });
-
-//     const questionsWithUsernames = questions.map((question) => {
-//       return {
-//         ...question,
-//         username: userMap[question.user_id],
-//       };
-//     });
-
-//     return res.status(200).json(questionsWithUsernames);
-//   } catch (error) {
-//     console.log(error.message);
-//     return res
-//       .status(500)
-//       .json({ msg: "Something went wrong, try again later" });
-//   }
-// }
-
 async function getUsernamesForQuestions(req, res) {
   try {
     const [questions] = await dbcon.query("SELECT * FROM questions");

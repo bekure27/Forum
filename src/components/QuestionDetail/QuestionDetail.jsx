@@ -10,7 +10,8 @@ const QuestionDetail = () => {
   const questionId = id;
   const [question, setQuestion] = useState([]);
   const [answers, setAnswers] = useState([]);
-  const [answerDetail,setAnswerDetail] = useState("")
+  const [answerDetail,setAnswerDetail] = useState("");
+  const MAX_DESCRIPTION_LENGTH = 500;
   // console.log(questionId)
 
     useEffect(() => {
@@ -116,11 +117,19 @@ const handleSubmit = (e) => {
             <textarea
               id="description"
               value={answerDetail}
-              onChange={(e) => setAnswerDetail(e.target.value)}
+              // onChange={(e) => setAnswerDetail(e.target.value)}
+              onChange={(e) => {
+                if (e.target.value.length <= MAX_DESCRIPTION_LENGTH) {
+                  setAnswerDetail(e.target.value);
+                }
+              }}
               placeholder="Your answer..."
               className="w-full bg-white focus:outline-none focus:ring-2 focus:ring-blue-600 border border-gray-300 rounded-lg py-2 px-4 text-gray-700 leading-tight resize-none"
-              rows={6}
+              rows={8}
             ></textarea>
+            <p className="text-sm text-gray-500">
+              {answerDetail.length}/{MAX_DESCRIPTION_LENGTH} characters
+            </p>
             <button
               onClick={handleSubmit}
               className="mt-4  bg-blue-500 hover:bg-blue-700 text-white font-normal  py-2 px-4 rounded"

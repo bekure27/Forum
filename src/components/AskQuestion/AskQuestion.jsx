@@ -6,7 +6,7 @@ const AskQuestion = () => {
   const {  userId } = useSelector((state) => state.auth);
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
-
+  
   // console.log(userId)
 
 

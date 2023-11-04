@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import axios from "../../utils/axiosInstance";
 import { useSelector } from "react-redux";
-
+import profilePhoto from "/public/profile.jpeg";
 
 const QuestionDetail = () => {
   const { userId } = useSelector((state) => state.auth);
@@ -96,7 +96,7 @@ const handleSubmit = (e) => {
                   className="bg-white overflow-hidden shadow rounded-lg mt-4 flex items-center"
                 >
                   <img
-                    src={answer.profilePicture}
+                    src={profilePhoto}
                     alt="Profile"
                     className="w-11 h-11 rounded-full mr-4 ml-2"
                   />

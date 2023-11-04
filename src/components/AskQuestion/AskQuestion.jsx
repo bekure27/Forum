@@ -6,7 +6,8 @@ const AskQuestion = () => {
   const {  userId } = useSelector((state) => state.auth);
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
-  
+  const MAX_TITLE_LENGTH = 100;
+  const MAX_DESCRIPTION_LENGTH = 500;
   // console.log(userId)
 
 
@@ -65,20 +66,36 @@ const AskQuestion = () => {
                   type="text"
                   id="title"
                   value={title}
-                  onChange={(e) => setTitle(e.target.value)}
+                  // onChange={(e) => setTitle(e.target.value)}
+                  onChange={(e) => {
+                    if (e.target.value.length <= MAX_TITLE_LENGTH) {
+                      setTitle(e.target.value);
+                    }
+                  }}
                   className="w-full border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-600"
                   placeholder="Title"
                 />
+                <p className="text-sm text-gray-500">
+                  {title.length}/{MAX_TITLE_LENGTH} characters
+                </p>
               </div>
               <div className="mb-2">
                 <textarea
                   id="description"
                   value={description}
-                  onChange={(e) => setDescription(e.target.value)}
+                  // onChange={(e) => setDescription(e.target.value)}
+                  onChange={(e) => {
+                    if (e.target.value.length <= MAX_DESCRIPTION_LENGTH) {
+                      setDescription(e.target.value);
+                    }
+                  }}
                   className="w-full border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-600 resize-none"
                   rows={8}
                   placeholder="Question description..."
                 ></textarea>
+                <p className="text-sm text-gray-500">
+                  {description.length}/{MAX_DESCRIPTION_LENGTH} characters
+                </p>
               </div>
               <div className="flex items-center justify-between">
                 <button

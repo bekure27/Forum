@@ -19,6 +19,8 @@ async function getAnswers(req, res) {
   res.status(200).json(answers);
 }
 
+
+
 // Get answers for a specific question
 async function getQuestionAnswers(req, res) {
   const { questionId } = req.params;
@@ -28,7 +30,25 @@ async function getQuestionAnswers(req, res) {
     [questionId]
   );
 
-  res.status(200).json(answers);
+  // here
+  const userIds = answers.map((answer) => answer.user_id);
+const [users] = await dbcon.query(
+  "SELECT user_id, user_name FROM users WHERE user_id IN (?)",
+  [userIds]
+);
+
+  const userMap = {};
+  users.forEach((user) => {
+    userMap[user.user_id] = user.user_name;
+  });
+
+   const answerWithUsernames = answers.map((answer) => {
+     return {
+       ...answer,
+       username: userMap[answer.user_id],
+     };
+   });
+  res.status(200).json(answerWithUsernames);
 }
 
 module.exports = {

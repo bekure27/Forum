@@ -8,6 +8,8 @@ import QuestionDetail from "./components/QuestionDetail/QuestionDetail";
 import QuestionPage from "./components/QuestionPage/QuestionPage";
 import LandingPage from "./pages/LandingPage";
 import NotFound from "./components/NotFound/NotFound";
+import PrivateRoute from "../src/components/PrivateRoute/PrivateRoute";
+import EditProfile from "./components/profile/EditProfile";
 
 const dummyQuestions = [
   {
@@ -72,31 +74,32 @@ const dummyQuestion = {
 
 
 function App() {
-  
+
 
   return (
     <>
-      <Header />
       <BrowserRouter>
+        <Header />
         <Routes>
           <Route path="/" element={<LandingPage />} />
           <Route
             path="/questions"
             element={
-              <QuestionPage questions={dummyQuestions} userName={"abebe"} />
+              <PrivateRoute>
+                <QuestionPage />
+              </PrivateRoute>
             }
           />
           <Route
             path="/questions/:id"
-            element={
-              <QuestionDetail answers={dummyAnswers} question={dummyQuestion} />
-            }
+            element={<QuestionDetail answers={dummyAnswers} />}
           />
           <Route path="/ask" element={<AskQuestion />} />
+          <Route path="/profile" element={<EditProfile/>} />
           <Route path="*" element={<NotFound />} />
         </Routes>
+        <Footer />
       </BrowserRouter>
-      <Footer />
     </>
   );
 }

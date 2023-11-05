@@ -22,6 +22,37 @@ async function getAnswers(req, res) {
 
 
 // Get answers for a specific question
+// async function getQuestionAnswers(req, res) {
+//   const { questionId } = req.params;
+
+//   const [answers] = await dbcon.query(
+//     "SELECT * FROM answer WHERE question_id = ?",
+//     [questionId]
+//   );
+
+//   // here
+//   const userIds = answers.map((answer) => answer.user_id);
+// const [users] = await dbcon.query(
+//   "SELECT user_id, user_name FROM users WHERE user_id IN (?)",
+//   [userIds]
+// );
+
+//   const userMap = {};
+//   users.forEach((user) => {
+//     userMap[user.user_id] = user.user_name;
+//   });
+
+//    const answerWithUsernames = answers.map((answer) => {
+//      return {
+//        ...answer,
+//        username: userMap[answer.user_id],
+//      };
+//    });
+//   res.status(200).json(answerWithUsernames);
+// }
+
+
+
 async function getQuestionAnswers(req, res) {
   const { questionId } = req.params;
 
@@ -30,26 +61,34 @@ async function getQuestionAnswers(req, res) {
     [questionId]
   );
 
-  // here
-  const userIds = answers.map((answer) => answer.user_id);
-const [users] = await dbcon.query(
-  "SELECT user_id, user_name FROM users WHERE user_id IN (?)",
-  [userIds]
-);
+  let answerWithUsernames = [];
 
-  const userMap = {};
-  users.forEach((user) => {
-    userMap[user.user_id] = user.user_name;
-  });
+  if (answers.length > 0) {
+    const userIds = answers.map((answer) => answer.user_id);
+    const [users] = await dbcon.query(
+      `SELECT user_id, user_name FROM users WHERE user_id IN (${userIds
+        .map(() => "?")
+        .join(",")})`,
+      userIds
+    );
 
-   const answerWithUsernames = answers.map((answer) => {
-     return {
-       ...answer,
-       username: userMap[answer.user_id],
-     };
-   });
+    const userMap = {};
+    users.forEach((user) => {
+      userMap[user.user_id] = user.user_name;
+    });
+
+    answerWithUsernames = answers.map((answer) => {
+      return {
+        ...answer,
+        username: userMap[answer.user_id],
+      };
+    });
+  }
+
   res.status(200).json(answerWithUsernames);
 }
+
+
 
 module.exports = {
   createAnswer,

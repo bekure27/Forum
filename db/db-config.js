@@ -10,6 +10,15 @@ const dbcon = mysq12.createPool({
   connectionLimit: process.env.DB_CONNECTION_LIMIT,
 });
 
+// const dbcon = mysql2.createPool({
+//   host: process.env.DB_HOST,
+//   user: process.env.DB_USER,
+//   database: process.env.DB_DATABASE,
+//   password: process.env.DB_PASSWORD,
+//   port: 3306,
+//   connectionLimit: process.env.DB_CONNECTION_LIMIT,
+// });
+
 // using callback
 
 // dbcon.execute("select 'test' ", (err, result) => {

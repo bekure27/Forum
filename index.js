@@ -51,6 +51,9 @@ app.use("/api/question", questionRoutes);
 const answerRoute = require("./routes/answerRoute");
 app.use("/api/answer", answerRoute);
 
+app.get('/', (req,res) => {
+  res.send("Abebe")
+})
 
 
 async function start() {

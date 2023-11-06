@@ -35,7 +35,9 @@ const LoginRegister = () => {
        const response = await axios.post("users/register", userData);
        setError(""); 
       //  dispatch(login({ username: response.data.username }));
+      setIsRegistering(true)
        navigate("/");
+
      } catch (error) {
       console.error("Error:", error.response.data.msg);
       // Display the error to the user

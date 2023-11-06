@@ -36,7 +36,7 @@ const LoginRegister = () => {
        setError(""); 
        
        dispatch(login({ username: response.data.username }));
-       navigate("/questions");
+       navigate("/");
      } catch (error) {
       console.error("Error:", error.response.data.msg);
       // Display the error to the user
